@@ -8,7 +8,7 @@ export interface User {
 }
 
 export class UserService {
-  private db = new UserSQLiteDatabase();
+  constructor(private db = new UserSQLiteDatabase()) {}
 
   create(user: Omit<User, "id">): User {
     const newUser: User = { id: uuid(), ...user };
