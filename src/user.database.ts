@@ -25,7 +25,7 @@ export class UserSQLiteDatabase {
       .get(id) as User | null;
   }
 
-  update(id: User["id"], user: Partial<Omit<User, "id">>): boolean {
+  update(id: User["id"], user: Partial<Omit<User, "id">>): User {
     const existingUser = this.findById(id);
 
     if (!existingUser) {
@@ -39,7 +39,7 @@ export class UserSQLiteDatabase {
       .prepare("UPDATE users SET username = ?, name = ? WHERE id = ?")
       .run(username, name, id);
 
-    return true;
+    return { id, username, name };
   }
 
   delete(id: User["id"]): boolean {

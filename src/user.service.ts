@@ -1,4 +1,5 @@
 import { v4 as uuid } from "uuid";
+import { UserSQLiteDatabase } from "./user.database";
 
 export interface User {
   id: string;
@@ -7,29 +8,25 @@ export interface User {
 }
 
 export class UserService {
-  private users: Map<string, User> = new Map();
+  private db = new UserSQLiteDatabase();
 
   create(user: Omit<User, "id">): User {
     const newUser: User = { id: uuid(), ...user };
-    this.users.set(newUser.id, newUser);
+    this.db.insert(newUser);
 
     return newUser;
   }
 
   retrieve(id: User["id"]): User | null {
-    return this.users.get(id) ?? null;
+    return this.db.findById(id);
   }
 
   update(id: User["id"], user: Partial<Omit<User, "id">>) {
-    const existingUser = this.users.get(id);
-    if (existingUser) {
-      const updatedUser = { ...existingUser, ...user };
-      this.users.set(id, updatedUser);
-      return updatedUser;
-    }
+    const updatedUser = this.db.update(id, user);
+    return updatedUser;
   }
 
   delete(id: User["id"]) {
-    this.users.delete(id);
+    this.db.delete(id);
   }
 }

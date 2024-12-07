@@ -2,6 +2,9 @@
   "name": "user-service-ts",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "test": "bun test --watch"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "vitest": "^2.1.8"

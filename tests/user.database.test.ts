@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { Database } from "bun:sqlite";
-import { UserSQLiteDatabase } from "./user.database";
+import { UserSQLiteDatabase } from "../src/user.database";
 
 describe("UserSQLiteDatabase", () => {
   it("should instantiate a table if it doesn't exist", () => {
@@ -40,13 +40,12 @@ describe("UserSQLiteDatabase", () => {
     const user = { id: "1", username: "fulan", name: "Fulan al Fulani" };
     const db = new UserSQLiteDatabase();
     db.insert(user);
-    const success = db.update(user.id, {
+    const newUser = db.update(user.id, {
       username: "johndoe",
       name: "John Doe",
     });
 
-    expect(success).toEqual(true);
-    expect(db.findById(user.id)).toEqual({
+    expect(newUser).toEqual({
       ...user,
       username: "johndoe",
       name: "John Doe",

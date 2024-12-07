@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { UserService, type User } from "./user.service";
+import { UserService, type User } from "../src/user.service";
 
 describe("UserService", () => {
   let service: UserService;
@@ -48,10 +48,10 @@ describe("UserService", () => {
     expect(service.retrieve(user.id)).toEqual(expectedUser);
   });
 
-  it("should return undefined when updating a non-existent user", () => {
-    expect(
+  it("should throw when updating a non-existent user", () => {
+    expect(() =>
       service.update("non-existent-id", { name: "John Doe" })
-    ).toBeUndefined();
+    ).toThrow();
   });
 
   it("should delete a user", () => {
